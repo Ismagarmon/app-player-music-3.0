@@ -1,13 +1,55 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@font-face {
+  font-family: 'Exo';
+  src: url('../assets/font/Exo-Regular.ttf') format('truetype');
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+:root {
+  --font: 'Exo', 'sans-serif';
+  --heading3: 2.5rem;
+  --heading2: 1.5rem;
+  --heading: 2.25rem;
+  --navigation1: 1.125rem;
+  --navigation2: 1.25rem;
+  --notification: 1rem;
+  --errormessage: 0.875rem;
+  --button: 1.125;
+  --number: 0.75rem;
+  --primary: #141414;
+  --primary_variant: #13434B;
+  --secondary: #00818D;
+  --secondary_variant: #0D4249;
+  --background: #FFFFFF;
+  --on_background: #000000;
+  --error: #CB3D3D;
+  --good: #47B251;
+  --special_color: #898989;
+  --special_color_variant: #333333;
+  --tw-shadow: 0 4px 6px -1px rgba(0, 0, 0, .1), 0 2px 4px -2px rgba(0, 0, 0, .1);
+  --tw-ring-offset-shadow: 0 0 #0000;
+  --tw-ring-shadow: 0 0 #0000;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    padding: 0px;
+    margin: 0px;
+}
+
+html,
+body {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  margin: 0px;
+  padding: 0px;
+  min-width: 100svw;
+  min-width: 100vw;
+  min-height: 100svh;
+  min-height: 100vh;
+  font-family: sans-serif;
+  background-color: #ededed;
+  font-family: var(--font);
+  overflow: hidden;
 }

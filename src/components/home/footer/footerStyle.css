@@ -1,0 +1,144 @@
+.flex {
+    display: flex;
+}
+
+.flex-at {
+    align-items: center;
+}
+
+.flex-jc {
+    justify-content: space-around;
+}
+
+span#B,
+span#W {
+    font-weight: 650;
+}
+
+.footer {
+    color: var(--background)
+}
+
+img#appicon {
+    width: 75px;
+    height: 75px;
+    display: block
+}
+
+@media only screen and (min-width: 834px) {
+    .footer {
+        height: 7rem;
+        width: 100%;
+        background-color: var(--on_background)
+    }
+
+    .name {
+        width: 15%
+    }
+
+    .name>p:nth-child(1) {
+        margin-bottom: 0.5rem
+    }
+
+    .license {
+        width: 15%;
+        height: 5rem
+    }
+
+    .license p {
+        font-size: var(--navigation2)
+    }
+
+    .rrss {
+        width: 15%;
+        height: 5rem
+    }
+
+    .rrss svg {
+        display: block;
+        cursor: pointer;
+        transition: all 0.5s
+    }
+
+    svg:hover {
+        transform: scale(1.05)
+    }
+}
+
+@media only screen and (min-width: 430px) and (max-width: 842px) {
+    .footer {
+        height: 7rem;
+        width: 100%;
+        background-color: var(--on_background)
+    }
+
+    .name {
+        width: 20%;
+    }
+
+    .name p {
+        font-size: var(--errormessage);
+    }
+
+    .name>p:nth-child(1) {
+        margin-bottom: 0.5rem;
+    }
+
+    .license {
+        width: 15%;
+        height: 5rem;
+    }
+
+    .rrss {
+        width: 15%;
+        height: 5rem;
+    }
+
+    .rrss svg {
+        display: block;
+        cursor: pointer;
+        transition: all 0.5s;
+    }
+
+    svg:hover {
+        transform: scale(1.05);
+    }
+}
+
+@media only screen and (max-width: 428px) {
+
+    .footer {
+        height: 7rem;
+        width: 100%;
+        background-color: var(--on_background);
+    }
+
+    .name {
+        width: 20%;
+        height: 5.5rem;
+    }
+
+    .name p {
+        font-size: var(--errormessage);
+    }
+
+    .name>p:nth-child(1) {
+        margin-bottom: 0.5rem;
+    }
+
+    .rrss {
+        width: 40%;
+        height: 3rem;
+    }
+
+    .rrss svg {
+        display: block;
+        cursor: pointer;
+        transition: all 0.5s;
+    }
+
+    svg:hover {
+        transform: scale(1.05);
+    }
+
+}

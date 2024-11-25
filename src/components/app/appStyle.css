@@ -1,0 +1,241 @@
+
+
+.flex {
+    display: flex;
+}
+
+.flex-at {
+    align-items: center
+}
+
+.flex-jc {
+    justify-content: space-around
+}
+
+.flex-jccc {
+    justify-content: center
+}
+
+.none {
+    display: none;
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 834px) {
+
+    .grid {
+        display: grid;
+        grid-template-rows: [uno] 100% [dos];
+        grid-template-columns: [uno] 17.813rem [dos] auto [tres];
+        grid-template-areas: "menu componente"
+    }
+
+    .menu {
+        grid-area: menu;
+        width: 100%;
+        height: 100%
+    }
+
+    .componente {
+        grid-area: componente;
+        width: 100%;
+        height: 100%;
+        padding-left: 0.5rem
+    }
+
+    .primero {
+        height: 30%;
+        max-height: 30%;
+        min-height: 30%;
+        width: 100%;
+        margin-bottom: 0.5rem;
+        border-radius: 1rem;
+        background-color: var(--primary_variant);
+        padding: 1rem
+    }
+
+    .secundario {
+        height: 20.5%;
+        max-height: 20.5%;
+        min-height: 20.5%;
+        width: 100%;
+        margin-bottom: 0.5rem;
+        border-radius: 1rem;
+        background-color: var(--primary_variant);
+        padding: 1rem
+    }
+
+    .playlist {
+        height: 47.333%;
+        max-height: 47.333%;
+        min-height: 47.333%;
+        width: 100%;
+        border-radius: 1rem;
+        background-color: var(--primary_variant);
+        padding: 1rem
+
+    }
+
+    .title {
+        color: var(--special_color);
+        margin-bottom: 0.8rem;
+        font-size: var(--navigation2)
+    }
+
+    .p-title {
+        color: var(--background);
+        font-size: var(--navigation2);
+        margin-right: 7rem
+    }
+
+    ul {
+        list-style: none
+    }
+
+    ul>li {
+        width: 12.5rem;
+        height: 2.4rem;
+        margin-bottom: 0.4rem;
+        border-radius: 1rem;
+        transition: all 0.3s;
+        padding: 0.8rem
+    }
+
+    ul>li:hover {
+        background-color: var(--secondary);
+        cursor: pointer
+    }
+
+    li>a {
+        display: inline-block;
+        margin-left: 1rem;
+        color: var(--background);
+        font-size: var(--navigation1)
+    }
+
+    .player {
+        position: absolute;
+        transition: all .5s;
+        z-index: 1
+    }
+
+    .rightposition {
+        right: 8px;
+        bottom: 8px
+    }
+
+    .leftposition {
+        left: 8px;
+        bottom: 8px
+    }
+
+    .new-position {
+        bottom: -29rem
+    }
+
+    .npm {
+        bottom: -28rem
+    }
+
+    svg#newplaylist {
+        cursor: pointer
+    }
+
+    svg#artista {
+        margin-left: 0.2rem
+    }
+
+    .changebg {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0%;
+        left: 0%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 150
+    }
+
+    .playlistname {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 24rem;
+        height: 10rem;
+        background-color: var(--on_background);
+        transform: translate(-50%, -50%);
+        border-radius: 1rem;
+        border: 1px solid var(--background);
+        text-align: center;
+        z-index: 200
+    }
+
+    .playlistname p {
+        color: var(--background);
+        text-align: center;
+        margin-top: 1rem;
+        margin-bottom: 0.8rem
+    }
+
+    .playlistname input {
+        width: 80%;
+        height: 2rem;
+        border-radius: 0.3rem;
+        outline: none;
+        border: none;
+        margin-bottom: 1rem;
+        font-family: var(--font);
+        padding-left: 1rem;
+        font-size: var(--button)
+    }
+
+    .playlistname div {
+        width: 70%;
+        height: 2.5rem;
+        margin: 0px auto
+    }
+
+    .playlistname div button {
+        width: 6rem;
+        height: 2.5rem;
+        border: none;
+        border-radius: 0.3rem;
+        outline: none;
+        cursor: pointer
+    }
+
+    .playlistname div button#create {
+        background-color: var(--good)
+    }
+
+    .playlistname div button#cancel {
+        background-color: var(--error)
+    }
+
+    .playlistname div button p {
+        color: var(--background);
+        font-size: var(--button);
+        font-family: var(--font)
+    }
+
+    ul#playlist {
+        width: 100%;
+        height: 100%;
+        overflow-y: scroll
+    }
+
+    ul#playlist>li {
+        width: 100%;
+        height: 2rem;
+        color: var(--background);
+        padding: 0;
+        margin: 1.5rem auto;
+        font-size: var(--navigation2);
+        border-radius: 0.2rem
+    }
+
+    ul#playlist>li>svg {
+        margin-top: 0.4rem;
+        margin-right: 1rem;
+        margin-left: 0.4rem
+    }
+}

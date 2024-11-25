@@ -1,0 +1,335 @@
+.nav-c {
+    background-color: var(--secondary)
+}
+
+.flex {
+    display: flex
+}
+
+.flex-at {
+    align-items: center
+}
+
+.flex-jc {
+    justify-content: space-around
+}
+
+.flex-jcsb {
+    justify-content: space-between
+}
+
+.flex-jccc {
+    justify-content: center
+}
+
+.g {
+    gap: 13rem
+}
+
+.gap-l {
+    gap: 15px
+}
+
+img#appicon {
+    width: 100px;
+    height: 100px;
+    display: block
+}
+
+.m-w {
+    min-width: 13rem
+}
+
+nav {
+    background-color: var(--background);
+    width: 100%;
+    height: 8.438rem
+}
+
+
+
+/* Extra large devices (large laptops and desktops, 844px and up) */
+@media only screen and (min-width: 844px) {
+    .a-c {
+        color: var(--background);
+    }
+
+    body {
+        background-color: var(--background);
+    }
+
+    a {
+        color: var(--secondary);
+        text-decoration: none;
+        font-family: var(--font);
+        cursor: pointer
+    }
+
+    a#home,
+    a#about,
+    p,
+    a#signin,
+    a#signup {
+        font-size: var(--heading2)
+    }
+
+    a#signin,
+    a#signup {
+        padding: 0.3rem 2.5rem;
+        color: var(--background)
+    }
+
+    .prueba {
+        font-size: var(--heading2);
+        min-width: 9rem;
+        font-weight: 1000;
+        color: var(--background)
+    }
+
+    .ob {
+        color: var(--on_background)
+    }
+
+    .fw {
+        font-weight: 650
+    }
+
+    .ctn1 {
+        width: 14rem
+    }
+
+    .ctn3 {
+        width: 22rem;
+        height: 5rem
+    }
+
+    .btn {
+        width: 10rem;
+        height: 2.2rem;
+        border: 2px var(--primary) solid;
+        background-color: var(--primary_variant);
+        border-radius: 25rem
+    }
+
+    .spacer {
+        height: 0.2rem;
+        width: 100%;
+        background-color: var(--on_background)
+    }
+
+    p {
+        font-weight: 900
+    }
+}
+
+@media only screen and (min-width: 430px) and (max-width: 842px) {
+    a {
+        color: var(--secondary);
+        text-decoration: none;
+        cursor: pointer
+    }
+
+    a#home,
+    a#about,
+    p,
+    a#signin,
+    a#signup {
+        font-size: var(--navigation2)
+    }
+
+    a#signin,
+    a#signup {
+        padding: 0.3rem 2rem;
+        color: var(--background)
+    }
+
+    .btn {
+        width: 10rem;
+        height: 2.2rem;
+        border: 2px var(--secondary) solid;
+        background-color: var(--primary_variant);
+        border-radius: 25rem
+    }
+
+    .responsive {
+        position: absolute;
+        width: 20rem;
+        height: 100vh;
+        background-color: var(--primary);
+        left: 0;
+        transition: all 0.4s
+    }
+
+    .c-responsive {
+        position: absolute;
+        width: 20rem;
+        height: 100vh;
+        background-color: var(--primary);
+        left: -20rem;
+        transition: all 0.4s
+    }
+
+    .hamb {
+        width: 2.5rem;
+        height: 1.6rem;
+        cursor: pointer;
+        transition: all 0.4s;
+        z-index: 100
+    }
+
+    .sec {
+        width: 100%;
+        height: 0.2rem;
+        background-color: black;
+        transition: all 0.4s
+    }
+
+    .c-sec {
+        margin-bottom: 0.5rem
+    }
+
+    .rotate {
+        transform: rotate(45deg) translate(5px, 5px);
+        margin-bottom: 0rem
+    }
+
+    .rotate-inverse {
+        transform: rotate(-45deg) translate(4px, -5px)
+    }
+
+    .none {
+        opacity: 0
+    }
+
+    .b-w {
+        background-color: var(--background)
+    }
+
+    ul {
+        list-style: none;
+        margin-top: 6rem
+    }
+
+    li {
+        color: var(--background);
+        margin-bottom: 1rem;
+        font-family: var(--font);
+        cursor: pointer
+    }
+
+    li>p {
+        font-size: var(--navigation1)
+    }
+
+    .spacer {
+        height: 0.2rem;
+        width: 100%;
+        background-color: var(--on_background)
+    }
+}
+
+@media only screen and (max-width: 428px) {
+    a {
+        color: var(--secondary);
+        text-decoration: none;
+        cursor: pointer
+    }
+
+    a#home,
+    a#about,
+    p,
+    a#signin,
+    a#signup {
+        font-size: var(--navigation2);
+    }
+
+    a#signin,
+    a#signup {
+        padding: 0.3rem 2rem;
+        color: var(--background);
+    }
+
+    .btn {
+        width: 10rem;
+        height: 2.2rem;
+        border: 2px var(--secondary) solid;
+        background-color: var(--primary_variant);
+        border-radius: 25rem;
+    }
+
+    .responsive {
+        position: absolute;
+        width: 20rem;
+        height: 100vh;
+        background-color: var(--primary);
+        left: 0;
+        transition: all 0.4s;
+    }
+
+    .c-responsive {
+        position: absolute;
+        width: 20rem;
+        height: 100vh;
+        background-color: var(--primary);
+        left: -20rem;
+        transition: all 0.4s;
+    }
+
+    .hamb {
+        width: 2.5rem;
+        height: 1.6rem;
+        cursor: pointer;
+        transition: all 0.4s;
+        z-index: 100;
+    }
+
+    .sec {
+        width: 100%;
+        height: 0.2rem;
+        background-color: black;
+        transition: all 0.4s;
+    }
+
+    .c-sec {
+        margin-bottom: 0.5rem;
+    }
+
+    .rotate {
+        transform: rotate(45deg) translate(5px, 5px);
+        margin-bottom: 0rem;
+    }
+
+    .rotate-inverse {
+        transform: rotate(-45deg) translate(4px, -5px);
+    }
+
+    .none {
+        opacity: 0;
+    }
+
+    .b-w {
+        background-color: var(--background);
+    }
+
+    ul {
+        list-style: none;
+        margin-top: 6rem;
+    }
+
+    li {
+        color: var(--background);
+        margin-bottom: 1rem;
+        font-family: var(--font);
+        cursor: pointer;
+    }
+
+    li>p {
+        font-size: var(--navigation1);
+    }
+
+    .spacer {
+        height: 0.2rem;
+        width: 100%;
+        background-color: var(--on_background);
+    }
+}
