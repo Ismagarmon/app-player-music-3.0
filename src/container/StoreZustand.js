@@ -12,6 +12,7 @@ const initStore = () => {
         localStorage.setItem('zone', 'home')
         localStorage.setItem('appzone', 'Home')
         localStorage.setItem('Genre', null)
+        localStorage.setItem('usuario',null)
     }
 
 }
@@ -37,73 +38,95 @@ const useStore = create((set) => ({
     songname: getLocalStorage('songname', 'Jim Yosef - Firefly _ Progressive House _ NCS'),
     artistname: getLocalStorage('artistname', null),
     zone: getLocalStorage('zone', 'home'),
+    usuario: getLocalStorage('usuario', null),
     appzone: getLocalStorage('appzone', 'Home'),
     genre: getLocalStorage('Genre', null),
 
+    logout: () => {
+        set({
+          isLogged: false,
+          userId: null,
+          username: null,
+          usuario: null,
+          zone: 'home',
+          appzone: 'Home'
+        })
+
+        setLocalStorage('isLogged', false)
+        setLocalStorage('userId', null)
+        setLocalStorage('username', null)
+        setLocalStorage('usuario', null)
+        setLocalStorage('zone', 'home')
+        setLocalStorage('appzone', 'Home')
+    },
+
+    resetState: () => {
+        set({
+          zone: 'home',
+          usuario: null,
+          appzone: 'Home'
+        })
+
+        setLocalStorage('zone', 'home')
+        setLocalStorage('usuario', null)
+        setLocalStorage('appzone', 'Home')
+    },
+
     setGenre: (genre) => {
-        set((state) => {
+        set(() => {
             const newState = { genre }
             setLocalStorage('Genre', genre)
-            return newState;
+            return newState
         })
     },
 
     setZoneHome: (zone) => {
-        set((state) => {
+        set(() => {
             const newState = { zone }
             setLocalStorage('zone', zone)
             return newState
-        });
+        })
     },
 
     setZoneApp: (zone) => {
-        set((state) => {
+        set(() => {
             const newState = { appzone: zone }
             setLocalStorage('appzone', zone)
             return newState
-        });
+        })
     },
 
     login: (userId) => {
-        set((state) => {
+        set(() => {
             const newState = { isLogged: true, userId }
             setLocalStorage('isLogged', true)
             setLocalStorage('userId', userId)
             return newState
-        });
+        })
     },
 
     setUserName: (username) => {
-        set((state) => {
+        set(() => {
             const newState = { username }
             setLocalStorage('username', username)
             return newState
-        });
+        })
     },
 
     setArtistName: (artistname) => {
-        set((state) => {
+        set(() => {
             const newState = { artistname }
             setLocalStorage('artistname', artistname)
             return newState
-        });
+        })
     },
 
     setSongName: (songname) => {
-        set((state) => {
+        set(() => {
             const newState = {  songname }
             setLocalStorage('songname', songname)
             return newState
-        });
-    },
-
-    logout: () => {
-        set(() => {
-            const newState = { userId: null }
-            setLocalStorage('isLogged', false)
-            setLocalStorage('userId', null)
-            return newState
-        });
+        })
     },
 
     addTrack: (track) => {
@@ -111,14 +134,14 @@ const useStore = create((set) => ({
             const newTrackList = [track]
             setLocalStorage('track_list', newTrackList)
             return { ...state, track_list: newTrackList }
-        });
+        })
     },
 
     clearTracks: () => {
         set(() => {
             setLocalStorage('track_list', [])
             return { track_list: [] }
-        });
+        })
     },
 
     shuffleTracks: () => {
@@ -126,8 +149,8 @@ const useStore = create((set) => ({
             const newTrackList = [...state.track_list].sort(() => Math.random() - 0.5)
             setLocalStorage('track_list', newTrackList)
             return { ...state, track_list: newTrackList }
-        });
+        })
     },
-}));
+}))
 
 export default useStore;

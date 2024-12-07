@@ -383,6 +383,8 @@ export class SignInView extends LitElement {
                     localStorage.setItem('userId', value.id_user)
                     localStorage.setItem('usuario', JSON.stringify(value))
 
+                    this.dispatchEvent(new CustomEvent('signin-success', { bubbles: true, composed: true }))
+
                 } else {
                     alert('No es la contraseña correcta ')
                     pw.value = ''

@@ -1,7 +1,8 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable class-methods-use-this */
 import { LitElement, html, css } from 'lit'
-import { GetGenres } from '../../../api/callapi'
+import { Genre, store, zoneApp } from '../../../container/store.js'
+import { GetGenres } from '../../../assets/api/callapi.js'
 
 export class HomeView extends LitElement {
 
@@ -16,7 +17,10 @@ export class HomeView extends LitElement {
 
   constructor() {
     super()
+
+    store.subscribe(() => this.handleChanges())
     const user = JSON.parse(localStorage.getItem('usuario'))
+    this.songname = store.getState().songname
     this.username = user.username
     this.arraygenres = []
     this.obtenerGenres()
@@ -25,6 +29,10 @@ export class HomeView extends LitElement {
   async obtenerGenres() {
     this.arraygenres = await GetGenres()
 
+  }
+
+  handleChanges() {
+    this.songname = store.getState().songname
   }
 
   static styles = css`
@@ -271,7 +279,8 @@ export class HomeView extends LitElement {
 
   profile() {
     this.dispatchEvent(new CustomEvent('toggleprofile', { detail: { main: false }, bubbles: true, composed: true }))
-    // localStorage.setItem('appzone', 'profile')
+    localStorage.setItem('appzone', 'profile')
+    store.dispatch(zoneApp('profile'))
   }
 
   genreColors = [
@@ -284,22 +293,19 @@ export class HomeView extends LitElement {
     "#E74C3C", 
     "#F39C12", 
     "#3498DB", 
-    "#7DCEA0"
+    "#7DCEA0",
   ]
 
   getRandomColor() {
     return this.genreColors[Math.floor(Math.random() * this.genreColors.length)]
   }
 
-  goSearch(genreparam) {
+  goSearch(genre) {
     this.dispatchEvent(new CustomEvent('togglemain', { detail: { expanded: false }, bubbles: true, composed: true }))
-    this.dispatchEvent(new CustomEvent('togglegenre', { detail: { genre: genreparam }, bubbles: true, composed: true }))
-    // localStorage.setItem('Genre', genre)
-    // localStorage.setItem('appzone', 'Artist')
-  }
-
-  navigate() {
-    this.dispatchEvent(new CustomEvent('togglehome', { detail: { homemain: true }, bubbles: true, composed: true }))
+    localStorage.setItem('Genre', genre)
+    localStorage.setItem('appzone', 'Artist')
+    store.dispatch(Genre(genre))
+    store.dispatch(zoneApp('Artist'))
   }
 
   render() {
