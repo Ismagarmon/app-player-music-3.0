@@ -10,8 +10,12 @@ function HomeReact({isDesktop, isIpad, isPhone, isHome}) {
 
   const [isOpened, setIsOpened] = useState(false)
 
-  const openmenu= (opened) => {
-    setIsOpened(!opened)
+  const openmenu= () => {
+    if(isOpened){
+      setIsOpened(false)
+    } else {
+      setIsOpened(true)
+    }
   }
 
   const setRoutState = useStore((state) => state.setZoneHome)
@@ -19,6 +23,11 @@ function HomeReact({isDesktop, isIpad, isPhone, isHome}) {
 
   const changerout = (rout) => {
     setRoutState(rout)
+    if(isOpened){
+      setIsOpened(false)
+    } else {
+      setIsOpened(true)
+    }
   }
 
 
@@ -27,12 +36,16 @@ function HomeReact({isDesktop, isIpad, isPhone, isHome}) {
       {!isDesktop ? (
         <div className={isOpened ? 'responsive' : 'c-responsive'}>
           <ul>
-            <Link to={'/home/'} className="flex flex-at flex-jccc" onClick={() => changerout('home')}>
-              <p>Home</p>
-            </Link>
-            <Link to={'/home/aboutus'} className="flex flex-at flex-jccc" onClick={() => changerout('about')}>
-              <p>About Us</p>
-            </Link>
+            <li className="flex flex-at flex-jccc">
+              <Link to={'/home/'} className="flex flex-at flex-jccc" onClick={() => changerout('home') }>
+                <p>Home</p>
+              </Link> 
+            </li>
+            <li className="flex flex-at flex-jccc">
+              <Link to={'/home/aboutus'} className="flex flex-at flex-jccc" onClick={() => changerout('about')}>
+                <p>About Us</p>
+              </Link>
+            </li>
             <li className="flex flex-at flex-jccc">
               <button className="btn flex flex-at flex-jccc">
                 <Link to={'/home/signin'} id="signin" onClick={() => changerout('signin')}>
@@ -42,7 +55,7 @@ function HomeReact({isDesktop, isIpad, isPhone, isHome}) {
             </li>
             <li className="flex flex-at flex-jccc">
               <button className="btn flex flex-at flex-jccc">
-                <Link to={'/home/signinup'} id="signup" onClick={() => changerout('signup')}>
+                <Link to={'/home/signup'} id="signup" onClick={() => changerout('signup')}>
                   SignUp
                 </Link>
               </button>
@@ -72,7 +85,7 @@ function HomeReact({isDesktop, isIpad, isPhone, isHome}) {
             </Link>
           </div>
         ) : (
-          <div className="hamb" onClick={() => openmenu(isOpened) }>
+          <div className="hamb" onClick={() => openmenu() }>
             <div className={`sec c-sec ${isOpened ? 'rotate b-w' : ''}`}></div>
             <div className={`sec c-sec ${isOpened ? 'none' : ''}`}></div>
             <div className={`sec ${isOpened ? 'rotate-inverse b-w' : ''}`}></div>

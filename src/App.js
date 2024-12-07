@@ -52,17 +52,25 @@ function App() {
   }, [])
 
   useEffect(() => {
-    const isLogged = JSON.parse(localStorage.getItem('isLogged')) || false
+    const isLogged = JSON.parse(localStorage.getItem('isLogged')) || false;
+    if (location.pathname.startsWith('/app')) {
 
-    const isAppRoute = location.pathname.startsWith('/app')
 
-    setIsHome(!isAppRoute)
 
-    if (!isLogged && isAppRoute) {
+    }
+
+    if (location.pathname.startsWith('/app')) {
+      setIsHome(false)
+    } else {
+      setIsHome(true)
+    }
+
+    if (!isLogged && location.pathname.startsWith('/app')) {
       navigate('/home/')
     }
-  }, [location.pathname, navigate, setIsHome])
 
+    
+  }, [location.pathname,navigate])
   
 
   return (

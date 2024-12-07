@@ -96,14 +96,13 @@ const useStore = create((set) => ({
         })
     },
 
-    login: (userId) => {
-        set(() => {
-            const newState = { isLogged: true, userId }
-            setLocalStorage('isLogged', true)
-            setLocalStorage('userId', userId)
-            return newState
-        })
-    },
+    setLoggedState: (data) => set((state) => ({
+        ...state,
+        isLogged: data.isLogged,
+        zone: data.zone,
+        userId: data.userId,
+        usuario: data.usuario,
+    })),
 
     setUserName: (username) => {
         set(() => {

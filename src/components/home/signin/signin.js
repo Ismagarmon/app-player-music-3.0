@@ -3,6 +3,7 @@
 /* eslint-disable no-lonely-if */
 /* eslint-disable no-alert */
 import { LitElement, html, css } from 'lit';
+import useStore from '../../../container/StoreZustand'
 import { LoginDataArtist, LoginDataUser, GetUsersByEmail, GetArtsits } from '../../../api/callapi.js'
 
 export class SignInView extends LitElement {
@@ -377,6 +378,13 @@ export class SignInView extends LitElement {
 
                 if (respuesta.Message) {
                     const value = await GetUsersByEmail(email.value)
+
+                    useStore.getState().setLoggedState({
+                        isLogged: true,
+                        zone: 'home',
+                        userId: value.id_user,
+                        usuario: value
+                    })
 
                     localStorage.setItem('isLogged', true)
                     localStorage.setItem('zone', 'home')
