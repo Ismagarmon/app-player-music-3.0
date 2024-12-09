@@ -5,6 +5,7 @@ import { LitElement, html, css } from 'lit';
 import useStore from '../../../container/StoreZustand'
 import { DeleteUser, GetUsers, UpdateDataUser } from '../../../api/callapi';
 
+
 export class ProfileView extends LitElement {
 
   static properties = {
@@ -340,9 +341,14 @@ export class ProfileView extends LitElement {
 
 
   logout() {
-
-    const { logout } = useStore.getState()
-    logout()
+    useStore.getState().logout({
+      isLogged: false,
+      userId: null,
+      username: null,
+      usuario: null
+    })
+    
+    this.dispatchEvent(new CustomEvent('logout', { detail: { logout: true }, bubbles: true, composed: true }))
   }
 
   async updateUser() {
@@ -375,6 +381,20 @@ export class ProfileView extends LitElement {
 
   }
 
+  handleFileUpload(event) {
+    const file = event.target.files[0]
+    if (!file) return
+
+    if (file.size > 2 * 1024 * 1024) {
+      alert('La imagen debe ser menor a 2MB.')
+      return
+    }
+
+    const formData = new FormData()
+    formData.append('image', file)
+
+  }
+
   render() {
     return html`
             <div class="main grid">
@@ -388,7 +408,7 @@ export class ProfileView extends LitElement {
 
                         <button class="flex flex-at flex-jc" id="imgup">
                             <p>Upload Image</p>
-
+                            
                             <svg width="32" height="32" viewBox="0 0 24 24"><mask id="lineMdCloudUploadOutlineLoop0">
                                 <g fill="currentColor"><circle cx="12" cy="10" r="6"/><rect width="9" height="8" x="8" y="12"/><rect width="17" height="12" x="1" y="8" rx="6"><animate attributeName="x" dur="24s" repeatCount="indefinite" values="1;0;1;2;1"/></rect><rect width="17" height="10" x="6" y="10" rx="5"><animate attributeName="x" dur="15s" repeatCount="indefinite" values="6;5;6;7;6"/></rect>
                                 </g><circle cx="12" cy="10" r="4"/>
@@ -402,7 +422,13 @@ export class ProfileView extends LitElement {
                                 <path d="M12 9L16 13H8L12 9Z">
                                   <animateMotion calcMode="linear" dur="1.5s" keyPoints="0;0.25;0.5;0.75;1" keyTimes="0;0.1;0.5;0.8;1" path="M0 0v-1v2z" repeatCount="indefinite"/></path></g></mask><rect width="24" height="24" fill="#47B251" mask="url(#lineMdCloudUploadOutlineLoop0)"/>
                             </svg>
-
+                            <input
+                                type="file"
+                                id="imgup"
+                                style="display: none"
+                                accept="image/jpeg, image/png, image/gif"
+                                @change="${(event) => this.handleFileUpload(event)}"
+                            />
                         </button>
 
                         <button class="flex flex-at flex-jc" id="imgde">

@@ -1,4 +1,4 @@
-import { BrowserRouter, Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
+import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import React, { useEffect, useState } from 'react'
 import HomeReact from './components/home/homeReact'
 import AboutReact from './components/home/about/aboutReact'
@@ -12,6 +12,7 @@ import ArtistReact from './components/app/artist/artistReact'
 import ProfileReact from './components/app/profile/profileReact'
 import FavouriteReact from './components/app/favourite/favouriteReact'
 import RecentReact from './components/app/recents/recentsReact'
+import GenresReact from './components/app/genres/genresReact'
 
 
 const Sizes = {
@@ -27,7 +28,7 @@ function App() {
   const [isHome, setIsHome] = useState(true)
 
   const location = useLocation()
-  const navigate = useNavigate()
+
 
   const getSizes = () => {
     if (document.body.clientWidth >= Sizes.Desktop) {
@@ -52,25 +53,14 @@ function App() {
   }, [])
 
   useEffect(() => {
-    const isLogged = JSON.parse(localStorage.getItem('isLogged')) || false;
-    if (location.pathname.startsWith('/app')) {
-
-
-
-    }
-
+    
     if (location.pathname.startsWith('/app')) {
       setIsHome(false)
     } else {
       setIsHome(true)
     }
-
-    if (!isLogged && location.pathname.startsWith('/app')) {
-      navigate('/home/')
-    }
-
     
-  }, [location.pathname,navigate])
+  }, [location.pathname])
   
 
   return (
@@ -84,7 +74,7 @@ function App() {
 
       <Route path='/app' element={<AppReact isApp={isHome}/>}> 
         <Route path='/app/' element={<AppHomeReact />} />
-
+        <Route path='/app/genres' element={<GenresReact />} />
         <Route path='/app/albums' element={<ArtistReact />} />
         <Route path='/app/artists' element={<ArtistReact />} />
         <Route path='/app/profile' element={<ProfileReact />} />

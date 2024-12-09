@@ -226,5 +226,45 @@ export const GetPlaylists = async (idUser) => {
     return response
 }
 
+export const DeletePlaylist = async (ID) => {
+
+    const sendata = await fetch(
+        `https://apimap-h4m5.onrender.com/user/playlist/${ID}`,
+        {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+    )
+
+    const response = await sendata.json()
+
+    return response
+}
+
+export const UpdatePlaylist = async (nameu,ID) => {
+
+    const data = {
+        name: nameu,
+        id: ID
+    }
+
+    const sendata = await fetch(
+        'https://apimap-h4m5.onrender.com/user/playlist',
+        {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }
+    )
+
+    const response = await sendata.json()
+
+    return response
+}
+
 const n = ''
 export default n

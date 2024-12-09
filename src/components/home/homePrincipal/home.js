@@ -259,10 +259,12 @@ export class HomeComponentView extends LitElement {
   btnclick(rute) {
 
     if(this.isLogged === 'true') {
+      this.dispatchEvent(new CustomEvent('isLoggedMain', { detail: { isLogged: this.isLogged }, bubbles: true, composed: true }))
     } else {
+      this.dispatchEvent(new CustomEvent('isLoggedMain', { detail: { isLogged: this.isLogged }, bubbles: true, composed: true }))
       localStorage.setItem('zone', rute)
     }
-    // Esto hay que hacerlo cuando se renderiza la ruta
+    
   }
 
   constructor() {
@@ -271,6 +273,7 @@ export class HomeComponentView extends LitElement {
     this.isPhone = false
     this.isIpad = false
     this.srcImagen = ''
+    this.isLogged = localStorage.getItem("isLogged")
   }
 
   render() {
@@ -286,7 +289,7 @@ export class HomeComponentView extends LitElement {
             ${ this.isDesktop ? html`
               <button @click=${() => this.btnclick('signin')} class="flex flex-at flex-jc">
                 <p>Get Started</p>
-                <svg width="24" height="20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg width="24" height="20" fill="none"  >
                   <path fill-rule="evenodd" clip-rule="evenodd" d="M12.707 3.577a1.146 1.146 0 0 0-1.414 0c-.39.326-.39.854 0 1.179l5.293 4.41H5c-.552 0-1 .374-1 .834 0 .46.448.833 1 .833h11.586l-5.293 4.411c-.39.325-.39.853 0 1.179.39.325 1.024.325 1.414 0l7-5.834c.39-.325.39-.853 0-1.178l-7-5.834Z" fill="#fff"/>
                 </svg>
               </button>` 
@@ -294,7 +297,7 @@ export class HomeComponentView extends LitElement {
               <div class="btn flex flex-jcc">
                 <button @click=${() => this.btnclick('signin')} class="flex flex-at flex-jc">
                   <p>Get Started</p>
-                  <svg width="24" height="20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <svg width="24" height="20" fill="none"  >
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M12.707 3.577a1.146 1.146 0 0 0-1.414 0c-.39.326-.39.854 0 1.179l5.293 4.41H5c-.552 0-1 .374-1 .834 0 .46.448.833 1 .833h11.586l-5.293 4.411c-.39.325-.39.853 0 1.179.39.325 1.024.325 1.414 0l7-5.834c.39-.325.39-.853 0-1.178l-7-5.834Z" fill="#fff"/>
                   </svg>
                 </button>

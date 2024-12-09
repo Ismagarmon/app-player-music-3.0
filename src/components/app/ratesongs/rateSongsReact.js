@@ -1,7 +1,7 @@
 import React from 'react'
 import { createComponent } from '@lit-labs/react'
 import { RateSongView as RateSongViewWC} from './ratesongs'
-
+import logo from '../../../img/Logo.png'
 
 const RateSongViewWCWebComponent = createComponent( // Esto es el nombre de la etiqueta del componente
 
@@ -16,7 +16,7 @@ function RateSongReact() {
 
 
   return (
-    <RateSongViewWCWebComponent />
+    <RateSongViewWCWebComponent srcImg={logo}/>
   )
 }
 

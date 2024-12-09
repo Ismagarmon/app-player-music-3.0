@@ -9,6 +9,7 @@ import useStore from '../../container/StoreZustand'
 function HomeReact({isDesktop, isIpad, isPhone, isHome}) {
 
   const [isOpened, setIsOpened] = useState(false)
+  const [isLogged, setIsLogged] = useState(localStorage.getItem("isLogged"))
 
   const openmenu= () => {
     if(isOpened){
@@ -97,7 +98,7 @@ function HomeReact({isDesktop, isIpad, isPhone, isHome}) {
           <p className={`prueba ${routState.includes('home') ? 'ob' : ''}`}>BEAT WAVES</p>
         </div>
 
-        {isDesktop && (
+        {isDesktop && isLogged === 'false' && (
           <div className="ctn3 flex flex-at flex-jc m-w">
             {(routState.includes('home') || routState.includes('about') || routState.includes('signup')) && (
               <button className="btn flex flex-at">
@@ -115,6 +116,19 @@ function HomeReact({isDesktop, isIpad, isPhone, isHome}) {
             )}
           </div>
         )}
+
+        {isDesktop && isLogged === 'true' && (
+          <div className="ctn4 flex flex-at flex-jc m-w">
+            {(routState.includes('home') || routState.includes('about') || routState.includes('signin')) && (
+              <button className="btn flex flex-at flex-jccc">
+                <Link to={'/app/'} id="app" onClick={() => changerout('signup')}>
+                  App
+                </Link>
+              </button>
+            )}
+          </div>
+        )}
+
       </nav>
     <div className="spacer"></div>
     <main style={isHome ? {height: 'calc(100vh - 7rem - 0.2rem - 8.438rem)', width: '100%', backgroundColor: 'var(--secondary)' } : {} }>

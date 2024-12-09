@@ -447,7 +447,6 @@ export class SignUpView extends LitElement {
     }
 
     checkpw() {
-        debugger
         const pw = this.shadowRoot.querySelector('#password')
         const cpw = this.shadowRoot.querySelector('#cpassword')
 
@@ -459,7 +458,6 @@ export class SignUpView extends LitElement {
     }
 
     async register() {
-        debugger
         const selectElement = this.shadowRoot.getElementById('type')
         const selectedValue = selectElement.value
 

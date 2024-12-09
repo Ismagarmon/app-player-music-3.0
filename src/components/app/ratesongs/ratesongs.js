@@ -13,7 +13,8 @@ export class RateSongView extends LitElement {
       dislike: { type: Number},
       songname: { type: String},
       artistname: { type: String },
-      albumname: { type: String}
+      albumname: { type: String},
+      srcImg: { type: String}
     }
 
     constructor() {
@@ -23,7 +24,7 @@ export class RateSongView extends LitElement {
       this.song = 'Anti-Hero'
       this.likes = 0
       this.dislike = 0
-      
+      this.srcImg = ''
     }
 
     static styles = css`
@@ -169,7 +170,7 @@ export class RateSongView extends LitElement {
               </div>
               <div class="comments">
                 <div class="comment flex flex-at">
-                  <img alt="logo" src="../assets/img/Logo.png" id="logo">
+                  <img alt="logo" src="${this.srcImg}" id="logo">
                   <input type="text" placeholder="Add a comment..." id="comment">
                     <svg width="27" height="27" fill="white" viewBox="0 0 32 32" id="send">
                       <path fill-rule="evenodd" clip-rule="evenodd" d="M15 3.75C8.787 3.75 3.75 8.787 3.75 15S8.787 26.25 15 26.25 26.25 21.213 26.25 15 21.213 3.75 15 3.75ZM1.25 15C1.25 7.406 7.406 1.25 15 1.25S28.75 7.406 28.75 15 22.594 28.75 15 28.75 1.25 22.594 1.25 15Zm14.634-5.884 5 5a1.25 1.25 0 0 1 0 1.768l-5 5a1.25 1.25 0 0 1-1.768-1.768l2.866-2.866H10a1.25 1.25 0 1 1 0-2.5h6.982l-2.866-2.866a1.25 1.25 0 0 1 1.768-1.768Z" fill="#fff"/>

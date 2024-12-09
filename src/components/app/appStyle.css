@@ -73,7 +73,6 @@
         border-radius: 1rem;
         background-color: var(--primary_variant);
         padding: 1rem
-
     }
 
     .title {
@@ -237,5 +236,40 @@
         margin-top: 0.4rem;
         margin-right: 1rem;
         margin-left: 0.4rem
+    }
+
+    .namelist {
+        width: 100%;
+        min-height: 100%;
+        color: var(--background);
+        flex-direction: column;
+        gap: 0.5rem;
+        overflow-y: scroll
+    }
+
+    .namelist p#pn {
+        margin-top: 0.5rem;
+        width: 70%;
+        height: 1rem;
+        font-size: var(--navigation);
+        display: inline-block;
+        margin: 0;
+        text-align: left
+    }
+
+    .namelist div:nth-child(1) {
+        margin-top: 2rem;
+    }
+
+    .namelist div svg {
+        cursor: pointer;
+    }
+
+    .pn {
+        margin-top: 1rem;
+    }
+
+    svg#deletePlaylist {
+        margin-left: 0.8rem;
     }
 }

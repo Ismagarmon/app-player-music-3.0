@@ -42,15 +42,16 @@ const useStore = create((set) => ({
     appzone: getLocalStorage('appzone', 'Home'),
     genre: getLocalStorage('Genre', null),
 
-    logout: () => {
-        set({
-          isLogged: false,
-          userId: null,
-          username: null,
-          usuario: null,
-          zone: 'home',
-          appzone: 'Home'
-        })
+    logout: (data) => {
+        set( (state) => ({
+          ...state,
+            isLogged: data.isLogged,
+            zone: 'home',
+            appzone: 'Home',
+            userId: data.userId,
+            usuario: data.usuario,
+            username: data.username
+        }))
 
         setLocalStorage('isLogged', false)
         setLocalStorage('userId', null)

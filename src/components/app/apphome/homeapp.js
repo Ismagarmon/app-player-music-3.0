@@ -11,7 +11,8 @@ export class HomeView extends LitElement {
     isPhone: { type: Boolean },
     username: { type: String },
     songname: { type: String },
-    arraygenres: { type: Array }
+    arraygenres: { type: Array },
+    srcImg: { type: String}
   }
 
   constructor() {
@@ -20,6 +21,7 @@ export class HomeView extends LitElement {
     this.username = user.username
     this.arraygenres = []
     this.obtenerGenres()
+    this.srcImg = ''
   }
 
   async obtenerGenres() {
@@ -71,7 +73,7 @@ export class HomeView extends LitElement {
 
             .main {
               height: 100%;
-              width: 100%;
+              width: 100%
             }
 
             .grid {
@@ -90,13 +92,13 @@ export class HomeView extends LitElement {
               background-color: red;
               border-radius: 1rem;
               background-color: var(--primary_variant);
-              position: relative;
+              position: relative
             }
 
             .info {
               width: calc(100% - 20.12rem);
               height: 100%;
-              border-radius: 1rem;
+              border-radius: 1rem
             }
 
             .nav {
@@ -117,7 +119,7 @@ export class HomeView extends LitElement {
               width: 14%;
               height: 100%;
               background-color: var(--primary);
-              border-radius: 0.4rem;
+              border-radius: 0.4rem
             }
 
             .info2 {
@@ -125,7 +127,7 @@ export class HomeView extends LitElement {
               height: 100%;
               display: inline-block;
               text-align: center;
-              padding-top: 0.3rem;
+              padding-top: 0.3rem
               
             }
 
@@ -134,7 +136,7 @@ export class HomeView extends LitElement {
               height: 50px;
               border: 1px transparent;
               border-radius: 4rem;
-              display: block;
+              display: block
             }
 
             p#username {
@@ -145,7 +147,7 @@ export class HomeView extends LitElement {
             .songname {
               width: 7rem;
               max-height: 2rem;
-              overflow-x: hidden;
+              overflow-x: hidden
             }
 
             p#songname {
@@ -155,7 +157,7 @@ export class HomeView extends LitElement {
               overflow-x: hidden;
               max-height: 2rem;
               white-space: nowrap;
-              overflow-x: visible;
+              overflow-x: visible
             }
 
             p#home {
@@ -176,7 +178,7 @@ export class HomeView extends LitElement {
               border-radius: 0.3rem;
               font-size: var(--navigation1);
               font-family: var(--font);
-              cursor: pointer;
+              cursor: pointer
             }
 
             .btn {
@@ -193,7 +195,7 @@ export class HomeView extends LitElement {
               background-color: var(--primary_variant);
               border-radius: 1rem;
               padding-top: 1rem;
-              margin-bottom: 0.5rem;
+              margin-bottom: 0.5rem
             }
 
             p#tp, p#genres, p#tc {
@@ -257,7 +259,7 @@ export class HomeView extends LitElement {
             }
             
             .ib {
-              display: inline;
+              display: inline
             }
         }
     `;
@@ -312,7 +314,7 @@ export class HomeView extends LitElement {
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M11.293 2.293A1 1 0 0 1 13 3v.094a2.65 2.65 0 0 0 1.601 2.423 2.65 2.65 0 0 0 2.918-.532l.069-.068a1 1 0 0 1 1.415 0 .999.999 0 0 1 0 1.416l-.06.06-.008.008a2.65 2.65 0 0 0-.607 2.729c.012.09.037.18.073.264A2.65 2.65 0 0 0 20.826 11H21a1 1 0 0 1 0 2h-.094a2.65 2.65 0 0 0-2.423 1.601 2.65 2.65 0 0 0 .532 2.918l.068.069a1 1 0 0 1 .217 1.09 1.057 1.057 0 0 1-.1.179 1.106 1.106 0 0 1-.117.146 1 1 0 0 1-1.416 0l-.06-.06-.008-.008a2.651 2.651 0 0 0-2.918-.532 2.65 2.65 0 0 0-1.601 2.423V21a1 1 0 0 1-2 0v-.113a2.65 2.65 0 0 0-1.705-2.415 2.651 2.651 0 0 0-2.894.543l-.069.068a.999.999 0 0 1-1.415 0 1 1 0 0 1 0-1.416l.06-.06.008-.008a2.65 2.65 0 0 0 .532-2.918 2.65 2.65 0 0 0-2.423-1.601H3a1 1 0 0 1 0-2h.113a2.65 2.65 0 0 0 2.414-1.705 2.65 2.65 0 0 0-.542-2.894l-.068-.069a1 1 0 0 1 0-1.415 1 1 0 0 1 1.416 0l.06.06.008.008a2.65 2.65 0 0 0 2.729.607 1 1 0 0 0 .264-.073A2.65 2.65 0 0 0 11 3.174V3a1 1 0 0 1 .293-.707ZM12 0a3 3 0 0 0-3 3v.167a.65.65 0 0 1-.285.534 1 1 0 0 0-.199.064.65.65 0 0 1-.714-.127l-.054-.055a3 3 0 1 0-4.245 4.244l.055.055a.65.65 0 0 1 .127.714l-.024.059a.65.65 0 0 1-.585.425H3a3 3 0 1 0 0 6h.167a.65.65 0 0 1 .594.394l.004.01a.65.65 0 0 1-.127.714l-.055.055a3 3 0 0 0 3.27 4.895c.365-.151.696-.372.974-.651l.055-.055a.65.65 0 0 1 .714-.127l.059.023a.651.651 0 0 1 .425.586V21a3 3 0 1 0 6 0v-.168a.65.65 0 0 1 .394-.593l.01-.004a.65.65 0 0 1 .714.127l.055.055a2.999 2.999 0 0 0 4.895-.973 3 3 0 0 0-.651-3.271l-.055-.055a.65.65 0 0 1-.127-.714l.004-.01a.65.65 0 0 1 .594-.394H21a3 3 0 0 0 0-6h-.168a.65.65 0 0 1-.533-.285 1.006 1.006 0 0 0-.064-.199.65.65 0 0 1 .127-.714l.055-.055a2.999 2.999 0 0 0-.973-4.895 3 3 0 0 0-3.271.651l-.055.055a.65.65 0 0 1-.714.127l-.01-.004A.65.65 0 0 1 15 3.087V3a3 3 0 0 0-3-3Zm-2 12a2 2 0 1 1 4 0 2 2 0 0 1-4 0Zm2-4a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z" fill="#fff"/>
                   </svg>
                   <div class="profile flex flex-at flex-jcsa">
-                      <img alt="logo" src="../assets/img/Logo.png" id="infosong">
+                      <img alt="logo" src="${this.srcImg}" id="infosong">
 
                     <div class="info2 flex flex-jc">
                       <p id="username">${this.username}</p>
@@ -339,16 +341,7 @@ export class HomeView extends LitElement {
 
                   <div class="genres flex flex-jc flex-w">
                     <p id="genres">Genres</p>
-                    ${this.arraygenres.map(genre =>
-
-      html`
-                        <div class="genre flex flex-at flex-jccc" style="background-color: ${this.getRandomColor()};" @click=${() => this.goSearch(genre.description)}>
-                          ${genre.description}
-                        </div>
-                        
-                        
-                        `
-    )}
+                    ${this.arraygenres.map(genre => html`<div class="genre flex flex-at flex-jccc" style="background-color: ${this.getRandomColor()};" @click=${() => this.goSearch(genre.description)}>${genre.description}</div>`)}
                   </div>
 
                   <div class="charts">

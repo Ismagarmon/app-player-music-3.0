@@ -8,7 +8,8 @@ export class FavouriteView extends LitElement {
     isIpad: { type: Boolean },
     isPhone: { type: Boolean },
     username: { type: String },
-    name: { type: String }
+    name: { type: String },
+    srcImg: { type: String}
   }
 
   list = [
@@ -29,6 +30,7 @@ export class FavouriteView extends LitElement {
     
     this.username = 'User'
     this.name = `Created By  < ${this.username} > `
+    this.srcImg = ''
   }
 
   static styles = css`
@@ -153,7 +155,7 @@ export class FavouriteView extends LitElement {
     return html`
             <div class="main gridhead">
               <div class="img">
-                <img alt="Corazon" src="../../../assets/img/Heart.jpg" id="heart">
+                <img alt="Corazon" src="${this.srcImg}" id="heart">
               </div>
               <div class="info">
                 <h3>PLAYLIST</h3>

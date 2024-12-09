@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useEffect }  from 'react'
 import { createComponent } from '@lit-labs/react'
 import { HomeView as HomeViewWC} from './homeapp'
-
+import { useNavigate } from 'react-router-dom'
+import logo from '../../../img/Logo.png'
 
 const AppHomeViewWebComponent = createComponent( // Esto es el nombre de la etiqueta del componente
 
@@ -13,11 +14,21 @@ const AppHomeViewWebComponent = createComponent( // Esto es el nombre de la etiq
   )
 
 function AppHomeReact() {
+  
+  const navigate = useNavigate()
+  const isLogged = localStorage.getItem('isLogged')
 
+  useEffect(() => {
+    if (isLogged === 'false' || isLogged === null) {
+      navigate('/home/')
+    }
+  }, [isLogged, navigate])
 
-  return (
-    <AppHomeViewWebComponent />
-  )
+  if (isLogged === 'false' || isLogged === null) {
+    return null
+  }
+
+  return <AppHomeViewWebComponent srcImg={logo}/>;
 }
 
 export default AppHomeReact

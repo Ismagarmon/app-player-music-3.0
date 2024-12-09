@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import AppPlayerReact from './appplayer/appplayerReact'
 import './appStyle.css'
 import { Link, Outlet } from 'react-router-dom'
-import { CreatePlaylists } from '../../api/callapi'
+import { CreatePlaylists, GetPlaylists, UpdatePlaylist, DeletePlaylist } from '../../api/callapi'
 
 function AppReact({isApp}) {
 
@@ -13,13 +13,15 @@ function AppReact({isApp}) {
     const [isLeft, setIsLeft] = useState(false)
     const [playlistName, setPlaylistName] = useState([])
     const [arrayFull, setArrayFull] = useState(false)
+    const [idplaylist, setIdPlaylist] = useState('')
 
     useEffect(() => {
         obtenerPlaylists()
-      }, [])
+    }, [])
     
       const obtenerPlaylists = async () => {
-        
+        let array = await GetPlaylists(localStorage.getItem("userId"))
+        setPlaylistName(array)
         setArrayFull(true)
       }
     
@@ -39,7 +41,7 @@ function AppReact({isApp}) {
       const createPlaylist = async () => {
         const name = document.getElementById('playlistname').value
         if (regexName(name)) {
-          const respuesta = await CreatePlaylists(name)
+          const respuesta = await CreatePlaylists(name,localStorage.getItem("userId"))
           if (respuesta.Message) {
             alert('The playlist has been correctly created')
             cancelPlaylists()
@@ -52,10 +54,46 @@ function AppReact({isApp}) {
     
       const cancelPlaylists = () => {
         document.getElementById('pc').classList.add('none')
-        document.getElementById('changebg').classList.add('none')
       }
 
-      
+      const openPlaylists = () => {
+        document.getElementById('pc').classList.remove('none')
+      }
+
+      const cancelEditPlaylists = () => {
+        document.getElementById('editpc').classList.add('none')
+        document.getElementById('editplaylistname').value = ''
+
+      }
+
+      const valorActualInput = (name,id) => {
+        setIdPlaylist(id)
+        document.getElementById('editpc').classList.remove('none')
+        document.getElementById('editplaylistname').value = name
+      }
+
+      const editplaylist = async () => {
+        const namechange = document.getElementById('editplaylistname').value
+        const respuesta = await UpdatePlaylist(namechange,idplaylist)
+        if (respuesta.Message) {
+          alert('The playlist has been correctly created')
+          cancelPlaylists()
+          obtenerPlaylists()
+          document.getElementById('editpc').classList.remove('none')
+          setIdPlaylist('')
+        } else {
+          document.getElementById('editpc').classList.remove('none')
+          setIdPlaylist('')
+        }
+      }
+
+      const deleteplaylist = async (id) => {
+        const respuesta = await DeletePlaylist(id)
+        if (respuesta.Message) {
+          alert('The playlist has been correctly deleted')
+          obtenerPlaylists()
+        }
+      }
 
       useEffect(() => {
 
@@ -91,9 +129,6 @@ function AppReact({isApp}) {
 
   return (
     <>
-    <div className="changebg none" id="changebg">
-
-    </div>
     <div className="playlistname none" id="pc">
 
         <p>Name of the playlist</p>
@@ -108,6 +143,31 @@ function AppReact({isApp}) {
                 </svg>
             </button>
             <button className="flex flex-at flex-jc" id="cancel" onClick={() => cancelPlaylists() }>
+                <p>Cancel</p>
+                <svg width="20" height="20" viewBox="0 0 14 14">
+                    <g fill="none" stroke="white" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M9.12 4.88L4.88 9.12m0-4.24l4.24 4.24"/>
+                        <circle cx="7" cy="7" r="6.5"/>
+                    </g>
+                </svg>
+            </button>
+        </div>
+        
+    </div>
+    <div className="playlistname none" id="editpc">
+
+        <p>Name of the playlist</p>
+
+        <input type="text" id="editplaylistname"/>
+
+        <div className="flex flex-at flex-jc">
+            <button className="flex flex-at flex-jc" id="create" onClick={() => editplaylist() }>
+                <p>Edit</p>
+                <svg width="18" height="18" viewBox="0 0 14 14">
+                    <path fill="white" fillRule="evenodd" d="M14 7A7 7 0 1 1 0 7a7 7 0 0 1 14 0M7 3.25a.75.75 0 0 1 .75.75v2.25H10a.75.75 0 0 1 0 1.5H7.75V10a.75.75 0 0 1-1.5 0V7.75H4a.75.75 0 0 1 0-1.5h2.25V4A.75.75 0 0 1 7 3.25" clipRule="evenodd"/>
+                </svg>
+            </button>
+            <button className="flex flex-at flex-jc" id="cancel" onClick={() => cancelEditPlaylists() }>
                 <p>Cancel</p>
                 <svg width="20" height="20" viewBox="0 0 14 14">
                     <g fill="none" stroke="white" strokeLinecap="round" strokeLinejoin="round">
@@ -181,9 +241,13 @@ function AppReact({isApp}) {
             <div className="playlist">
                 <div className="flex flex-at">
                     <p className="p-title">Playlists</p>
-                    <svg width="33" height="24" fill="none" id="newplaylist">
+                    <svg width="33" height="24" fill="none"  id="newplaylist" onClick={() => openPlaylists()}> 
                         <path d="M17.111 5.053H33v2.526H17.111V5.053ZM11 13.263h22v2.527H11v-2.527Zm0 8.21h22V24H11v-2.526Zm1.222-16.42H7.333V0H4.89v5.053H0v2.526h4.889v5.053h2.444V7.579h4.89V5.053Z" fill="#fff"/>
                     </svg>
+                </div>
+                <div className='flex namelist'>
+                {playlistName.map( (name, index) => ( <div className='flex flex-at pn' key={index}> <p id="pn" key={index}> {name.name} </p>  <svg onClick={() => valorActualInput(name.name,name.id_playlist)} id="editPlaylist" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M1.999 22h3.623a3 3 0 0 0 2.12-.878l14.79-14.789l-4.866-4.865L2.878 16.256a3 3 0 0 0-.879 2.122zm2-2v-1.622a1 1 0 0 1 .293-.707l2.158-2.158l2.037 2.036l-2.158 2.158a1 1 0 0 1-.707.293zm5.902-3.865l-2.037-2.037l9.802-9.801l2.037 2.036z"/></svg>  <svg onClick={() => deleteplaylist(name.id_playlist)} id="deletePlaylist"  width="20" height="20" viewBox="0 0 16 16"><g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5"><path d="m10.25 5.75l-4.5 4.5m0-4.5l4.5 4.5"/><circle cx="8" cy="8" r="6.25"/></g></svg> </div>  ) )}
+
                 </div>
             </div>
         </div>
