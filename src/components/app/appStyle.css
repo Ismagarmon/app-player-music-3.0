@@ -66,9 +66,9 @@
     }
 
     .playlist {
-        height: 47.333%;
-        max-height: 47.333%;
-        min-height: 47.333%;
+        height: 47.833%;
+        max-height: 47.833%;
+        min-height: 47.833%;
         width: 100%;
         border-radius: 1rem;
         background-color: var(--primary_variant);

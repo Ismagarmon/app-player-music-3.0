@@ -146,6 +146,13 @@ export const GetUsersById = async (id) => {
     return response
 }
 
+export const GetFullSongs = async () => {
+
+    const sendata = await fetch(`https://apimap-h4m5.onrender.com/song/fullsongs`)
+    const response = await sendata.json()
+    return response
+}
+
 export const UpdateDataUser = async (nameu, surnameu, usernameu, ageu, cityu, countryu, userIDu) => {
 
     const data = {

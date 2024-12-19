@@ -1,4 +1,6 @@
 import { LitElement, html, css } from 'lit';
+import useStore from '../../../container/StoreZustand';
+
 
 export class PlayerComponent extends LitElement {
 
@@ -53,27 +55,46 @@ export class PlayerComponent extends LitElement {
         this.isLeft = false
         this.isHolding = false
         this.srcImg = ''
-        this.songname = 'Jim Yosef - Firefly _ Progressive House _ NCS'
+        this.songname = localStorage.getItem('songname')
+        this.songname.slice(1,-1)
+        console.log(this.songname)
+        this.unsubscribe = null
+        this.handleChanges()
+        this.interval = null
+        this.audio.onerror = () => {
+            this.errorAudioSrc()
+        }
+    }
+
+    errorAudioSrc() {
+        alert("La cancion necesita ser actualizada")
     }
 
     async handleChanges() {
-        if (this.songname) {
-            this.isPlaying = false
-            this.audio.pause()
-            // this.audio.src = `https://apimap-h4m5.onrender.com/song/name/${this.songname}`
-            this.audio.src = `https://apimap-h4m5.onrender.com/song/name/${this.songname}`
-            
-            localStorage.setItem('songname', this.songname)
-            await this.audio.load()
-            this.audio.addEventListener('loadedmetadata', () => {
-                this.maxtime = this.audio.duration
-                this.songtime = Math.floor(this.audio.duration % 60) < 10 ? `${Math.floor(this.audio.duration / 60)}: 0${Math.floor(this.audio.duration % 60)}` : `${Math.floor(this.audio.duration / 60)} : ${Math.floor(this.audio.duration % 60)}`
-            })
+        this.interval = setInterval(async () => {
+            if(localStorage.getItem('songname') !== this.songname){
+                this.isPlaying = false
+                this.audio.pause()
+                this.audio.src = `https://apimap-h4m5.onrender.com/song/name/${localStorage.getItem('songname').slice(1, -1)}`
+                
+                localStorage.setItem('songname', this.songname = localStorage.getItem('songname'))
+                await this.audio.load()
+                this.audio.addEventListener('loadedmetadata', () => {
+                    this.maxtime = this.audio.duration
+                    this.songtime = Math.floor(this.audio.duration % 60) < 10 ? `${Math.floor(this.audio.duration / 60)}: 0${Math.floor(this.audio.duration % 60)}` : `${Math.floor(this.audio.duration / 60)} : ${Math.floor(this.audio.duration % 60)}`
+                })
+    
+                this.isPlaying = true
+                this.audio.play()
+            }
 
-            this.isPlaying = true
-            this.audio.play()
-        }
+        },100)
+    }
 
+    disconnectedCallback() {
+        this.interval = clearInterval()
+        this.audio.pause()
+        this.isPlaying = false
     }
 
     static styles = css`
@@ -356,7 +377,7 @@ export class PlayerComponent extends LitElement {
     }
 
     async loadsong() {
-        this.audio.src = `https://apimap-h4m5.onrender.com/song/name/${this.songname}`
+        this.audio.src = `https://apimap-h4m5.onrender.com/song/name/${this.songname.slice(1,-1)}`
         await this.audio.load()
         this.audio.addEventListener('loadedmetadata', () => {
             this.maxtime = this.audio.duration
@@ -383,12 +404,26 @@ export class PlayerComponent extends LitElement {
         const rewind = this.shadowRoot.querySelector('#rewind')
         rewind.addEventListener('click', () => this.rewind())
 
+        const forward = this.shadowRoot.querySelector('#forward')
+        forward.addEventListener('click', () => this.fordward())
+
         this.loadsong()
 
     }
 
+    fordward() {
+        const inputvolume = this.shadowRoot.querySelector('#time')
+        inputvolume.value = this.maxtime
+        this.realtime = this.maxtime
+        this.audio.pause()
+        this.isPlaying = false
+    }
+
     rewind() {
         this.audio.currentTime = 0
+        this.realtime = '0:00'
+        this.audio.play()
+        this.isPlaying = true
     }
 
     changevolume() {
@@ -495,9 +530,6 @@ export class PlayerComponent extends LitElement {
                     </div>
                     
                     <div class="icons flex flex-at flex-jcsa">
-                        <svg width="24" height="24" fill="white" id="repeat">
-                            <path d="M21.643 6.044a1 1 0 0 0 0-1.696L16.53 1.152A1 1 0 0 0 15 2v6.392a1 1 0 0 0 1.53.848l5.113-3.196Zm-19.173 13a1 1 0 0 1 0-1.696l5.113-3.196a1 1 0 0 1 1.53.848v6.392a1 1 0 0 1-1.53.848L2.47 19.044Z" fill="#fff"/><path d="M4 11v0a6 6 0 0 1 6-6v0h5m4 7v0a6 6 0 0 1-6 6v0H8" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><mask id="Repeat__a" maskUnits="userSpaceOnUse" x="9" y="7" width="4" height="8" fill="#000"><path fill="#fff" d="M9 7h4v8H9z"/><path d="M11.61 14V8.68l-1.207.328V8.6l1.264-.544h.584V14h-.64Z"/></mask><path d="M11.61 14V8.68l-1.207.328V8.6l1.264-.544h.584V14h-.64Z" fill="#fff"/><path d="M11.61 14h-.5v.5h.5V14Zm0-5.32h.5v-.654l-.63.171.13.483Zm-1.207.328h-.5v.654l.63-.171-.13-.483Zm0-.408-.198-.46-.302.13v.33h.5Zm1.264-.544v-.5h-.103l-.095.04.198.46Zm.584 0h.5v-.5h-.5v.5Zm0 5.944v.5h.5V14h-.5Zm-.14 0V8.68h-1V14h1Zm-.631-5.803-1.208.328.262.966 1.208-.328-.262-.966Zm-.577.811V8.6h-1v.408h1Zm-.303.051 1.264-.544-.395-.918-1.264.544.395.918Zm1.067-.503h.584v-1h-.584v1Zm.084-.5V14h1V8.056h-1Zm.5 5.444h-.64v1h.64v-1Z" fill="#fff" mask="url(#Repeat__a)"/>
-                        </svg>
 
                         <svg width="24" height="24" fill="white" id="rewind" >
                             <g clip-path="url(#fast_rewind__a)">
@@ -510,14 +542,11 @@ export class PlayerComponent extends LitElement {
                             <path fill-rule="evenodd" clip-rule="evenodd" d=${this.isPlaying ? this.pause : this.play} fill="#fff"/>
                         </svg>
                  
-                        <svg width="24" height="24" fill="white" id="forward"><g clip-path="url(#fast_forward__a)">
+                        <svg width="24" height="24" fill="white" id="forward" style="visibility: hidden">  <g clip-path="url(#fast_forward__a)">
                             <path d="m4 18 8.5-6L4 6v12Zm9-12v12l8.5-6L13 6Z" fill="#fff"/></g><defs><clipPath id="fast_forward__a">
                             <path fill="#fff" d="M0 0h24v24H0z"/></clipPath></defs>
                         </svg>
 
-                        <svg width="24" height="24" fill="white" id="shuffle">
-                            <path d="M16 18a5.998 5.998 0 0 1-4.149-1.665M7.155 8.052A7.498 7.498 0 0 0 2 6" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M22.643 19.044a1 1 0 0 0 0-1.696l-5.113-3.196A1 1 0 0 0 16 15v6.392a1 1 0 0 0 1.53.848l5.113-3.196Z" fill="#fff"/><path d="M16 6v0a6 6 0 0 0-5.539 3.692l-1.538 3.693A7.5 7.5 0 0 1 2 18v0" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M21.643 7.044a1 1 0 0 0 0-1.696L16.53 2.152A1 1 0 0 0 15 3v6.392a1 1 0 0 0 1.53.848l5.113-3.196Z" fill="#fff"/>
-                        </svg>
                     </div>
                     <div class="volume flex flex-at flex-jc">
 

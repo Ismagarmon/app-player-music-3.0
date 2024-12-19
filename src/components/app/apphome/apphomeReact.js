@@ -1,4 +1,4 @@
-import React, { useEffect }  from 'react'
+import React  from 'react'
 import { createComponent } from '@lit-labs/react'
 import { HomeView as HomeViewWC} from './homeapp'
 import { useNavigate } from 'react-router-dom'
@@ -9,26 +9,20 @@ const AppHomeViewWebComponent = createComponent( // Esto es el nombre de la etiq
     {
       react: React,
       elementClass: HomeViewWC,
-      tagName: 'homeapp-view'
+      tagName: 'homeapp-view',
+      events: { onProfile: 'toggleperfil' }
     }
   )
 
 function AppHomeReact() {
   
   const navigate = useNavigate()
-  const isLogged = localStorage.getItem('isLogged')
 
-  useEffect(() => {
-    if (isLogged === 'false' || isLogged === null) {
-      navigate('/home/')
-    }
-  }, [isLogged, navigate])
-
-  if (isLogged === 'false' || isLogged === null) {
-    return null
+  const handleGoProfile = () => {
+    navigate('/app/profile')
   }
 
-  return <AppHomeViewWebComponent srcImg={logo}/>;
+  return <AppHomeViewWebComponent srcImg={logo} onProfile={handleGoProfile}/>
 }
 
 export default AppHomeReact

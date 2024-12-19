@@ -8,7 +8,11 @@ export class ArtistView extends LitElement {
     static properties = {
         isDesktop: { type: Boolean },
         isIpad: { type: Boolean },
-        isPhone: { type: Boolean }
+        isPhone: { type: Boolean },
+        arrayartists: { type: Array },
+        arrayalbums: { type: Array },
+        originalartists: { type: Array },
+        originalalbums: { type: Array }
     }
 
     static styles = css`
@@ -47,7 +51,7 @@ export class ArtistView extends LitElement {
               background-color: var(--primary_variant);
               width: 100%;
               height: 100%;
-              border-radius: 1rem;
+              border-radius: 1rem
             }
 
             .row2 {
@@ -90,21 +94,38 @@ export class ArtistView extends LitElement {
         }
     `;
 
+        constructor() {
+          super()
+          this.arrayartists = []
+          this.arrayalbums = []
+          this.originalartists = []
+          this.originalalbums = []
+        }
+
     firstUpdated() {
       const input = this.shadowRoot.querySelector('#inputsearch')
       input.value = 'Search Artist / Album'
-      this.obtenerAlbums()
       this.obtenerArtists()
+      this.obtenerAlbums()
+      
     }
 
     async obtenerAlbums() {
-      const albums = await GetAlbums()
-      console.log(albums)
+      this.originalalbums = await GetAlbums()
+      this.arrayalbums = [...this.originalalbums]
+      this.requestUpdate()
     }
 
     async obtenerArtists() {
-      const artist = await GetArtsits()
-      console.log(artist)
+      this.originalartists = await GetArtsits()
+      this.arrayartists = [...this.originalartists]
+      this.requestUpdate()
+    }
+
+    filtersong() {
+      const input = this.shadowRoot.querySelector('#inputsearch')
+      this.arrayartists = this.originalartists.filter(value => { return value.name.toLowerCase().includes(input.value.toLowerCase()) })
+      this.arrayalbums = this.originalalbums.filter(value => { return value.name.toLowerCase().includes(input.value.toLowerCase()) })
     }
 
     changeinput(evnt) {
@@ -112,14 +133,12 @@ export class ArtistView extends LitElement {
       const input = this.shadowRoot.querySelector('#inputsearch')
       
       if (evnt.type === 'focus') {
-        
         if (input.value === 'Search Artist / Album') {
-          input.value = '';
+          input.value = ''
         }
       } else if (evnt.type === 'blur') {
-        
         if (input.value === '') {
-          input.value = 'Search Artist / Album';
+          input.value = 'Search Artist / Album'
         }
       }
       
@@ -132,20 +151,20 @@ export class ArtistView extends LitElement {
                 <div class="input flex flex-at">
                   <svg id="search" width="24" height="24" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M4 11a7 7 0 1 1 12.041 4.857 1.009 1.009 0 0 0-.185.184A7 7 0 0 1 4 11Zm12.618 7.032a9 9 0 1 1 1.414-1.414l3.675 3.675a1 1 0 0 1-1.414 1.414l-3.675-3.675Z" fill="#fff"/>
                   </svg>
-                  <input id="inputsearch" type="text" @focus=${(evnt) => this.changeinput(evnt)} @blur=${(evnt) => this.changeinput(evnt)}>
+                  <input id="inputsearch" type="text" @input=${() => this.filtersong()} @focus=${(evnt) => this.changeinput(evnt)} @blur=${(evnt) => this.changeinput(evnt)}>
                 </div>
               </div>
               <div class="row2">
                 <p>Artists :</p>
-
+                ${this.arrayartists.map( (value) => html` <artist-component .artistName="${value.name}" ></artist-component> ` ) }
               </div>
               <div class="row2">
                 <p>Albums :</p>
-
+                ${this.arrayalbums.map( (value) => html` <album-component .albumName="${value.name}" ></album-component> ` ) }
               </div>
             </div>
         `;
     }
 }
 
-customElements.define('artist-view', ArtistView);
+customElements.define('artist-view', ArtistView)

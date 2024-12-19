@@ -423,7 +423,11 @@ export class SignUpView extends LitElement {
     }
 
     isEmpty(obj) {
-        return Object.entries(obj).length === 0
+        if( obj === undefined) {
+            return true
+        } else {
+            return false
+        }
     }
 
     regexname(name) {
@@ -475,18 +479,18 @@ export class SignUpView extends LitElement {
 
         if (selectedValue === 'usuario') {
 
-            if (!this.regexpassword(email.value)) {
-
+            if (!this.regexpassword(pw.value)) {
+                alert("La contraseña tiene que tener al menos 8 caracteres, una minúscula, una mayúscula, un número y un símbolo.")
                 return
             }
 
             if (!this.regexemail(email.value)) {
-
+                alert("El correo no cumple con los requisitos.")
                 return
             }
 
-            if (this.regexusername(username.value)) {
-
+            if (!this.regexusername(username.value)) {
+                alert("Solo se admiten letras y números hasta 15 caracteres.")
                 return
             }
 
@@ -540,26 +544,22 @@ export class SignUpView extends LitElement {
                 usuario = respuesta.find(user => user.name === username.value)
 
                 usuario = respuesta.find(user => user.name === username.value)
-
                 if (this.isEmpty(usuario)) {
+                    const cpw = this.shadowRoot.querySelector('#cpassword')
                     await RegisterDataArtist(username.value, pw.value, email.value)
                     alert('Te has registrado correctamente')
+                    username.value = ''
                     pw.value = ''
                     email.value = ''
+                    cpw.value = ''
                     localStorage.setItem('zone', 'signin')
+                    this.dispatchEvent(new CustomEvent('togglesignin', { detail: { expanded: false }, bubbles: true, composed: true }))
                 } else {
-
                     alert('No te has registrado correctamente')
                 }
             }
 
         }
-
-    }
-
-    firstUpdated() {
-
-
 
     }
 

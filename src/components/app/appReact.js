@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import AppPlayerReact from './appplayer/appplayerReact'
 import './appStyle.css'
-import { Link, Outlet } from 'react-router-dom'
+import { Link, Outlet,useNavigate } from 'react-router-dom'
 import { CreatePlaylists, GetPlaylists, UpdatePlaylist, DeletePlaylist } from '../../api/callapi'
 
 function AppReact({isApp}) {
@@ -14,10 +14,17 @@ function AppReact({isApp}) {
     const [playlistName, setPlaylistName] = useState([])
     const [arrayFull, setArrayFull] = useState(false)
     const [idplaylist, setIdPlaylist] = useState('')
-
-    useEffect(() => {
-        obtenerPlaylists()
-    }, [])
+    const isLogged = localStorage.getItem('isLogged')
+    const navigate = useNavigate()
+    const currentPath = window.location.pathname
+  useEffect(() => {
+    
+    if ( (isLogged === 'false' || isLogged === null) && currentPath.includes('app')) {
+      navigate('/home/')
+    } else {
+      obtenerPlaylists()
+    }
+  }, [isLogged, navigate,currentPath])
     
       const obtenerPlaylists = async () => {
         let array = await GetPlaylists(localStorage.getItem("userId"))
@@ -76,13 +83,13 @@ function AppReact({isApp}) {
         const namechange = document.getElementById('editplaylistname').value
         const respuesta = await UpdatePlaylist(namechange,idplaylist)
         if (respuesta.Message) {
-          alert('The playlist has been correctly created')
+          alert('The playlist has been correctly updated')
           cancelPlaylists()
           obtenerPlaylists()
-          document.getElementById('editpc').classList.remove('none')
+          document.getElementById('editpc').classList.add('none')
           setIdPlaylist('')
         } else {
-          document.getElementById('editpc').classList.remove('none')
+          document.getElementById('editpc').classList.add('none')
           setIdPlaylist('')
         }
       }
@@ -125,6 +132,10 @@ function AppReact({isApp}) {
         if (event.type === 'mouseout' && !isExpanded) {
             setIsEnter(false)
         }
+    }
+
+    if ((isLogged === 'false' || isLogged === null) && currentPath.includes('app')) {
+      return null
     }
 
   return (
@@ -219,24 +230,10 @@ function AppReact({isApp}) {
             </div>
             <div className="secundario">
                 <p className="title">Library</p>
-
                 <ul>
-                    <li className="flex flex-at" onClick={() => changeRoute('Favourite')}>
-                        <svg width="24" height="24" fill="none"><path fillRule="evenodd" clipRule="evenodd" d="M13.913 2.493a6.031 6.031 0 0 1 4.78 0 6.234 6.234 0 0 1 2.026 1.41c.58.603 1.04 1.32 1.354 2.109a6.733 6.733 0 0 1 0 4.976 6.526 6.526 0 0 1-1.354 2.11l-8.491 8.84a.934.934 0 0 1-1.359 0l-8.491-8.84A6.639 6.639 0 0 1 .548 8.5a6.64 6.64 0 0 1 1.83-4.597 6.123 6.123 0 0 1 4.416-1.904c1.656 0 3.244.685 4.416 1.904l.339.353.338-.353a6.235 6.235 0 0 1 2.026-1.41Zm2.39 1.505c-.567 0-1.13.117-1.654.343a4.316 4.316 0 0 0-1.403.976l-1.018 1.06a.934.934 0 0 1-1.359 0l-1.018-1.06A4.24 4.24 0 0 0 6.794 4a4.24 4.24 0 0 0-3.058 1.318A4.597 4.597 0 0 0 2.47 8.5a4.6 4.6 0 0 0 1.266 3.183l7.813 8.133 7.812-8.133a4.54 4.54 0 0 0 .938-1.46 4.662 4.662 0 0 0 0-3.445 4.517 4.517 0 0 0-.938-1.46 4.317 4.317 0 0 0-1.403-.977 4.175 4.175 0 0 0-1.655-.343Z" fill="#fff"/>
-                        </svg>
-                        <Link to={'/app/favoritos'}>Favourites</Link>
-                    </li>
-                    <li className="flex flex-at" onClick={() => changeRoute('rs')}>
-                        <svg width="24" height="24" fill="none"><path fillRule="evenodd" clipRule="evenodd" d="M3 12a9 9 0 1 1 18 0 9 9 0 0 1-18 0Zm9-11C5.925 1 1 5.925 1 12s4.925 11 11 11 11-4.925 11-11S18.075 1 12 1Zm1 5a1 1 0 1 0-2 0v6a1 1 0 0 0 .553.894l4 2a1 1 0 1 0 .894-1.788L13 11.382V6Z" fill="#fff"/>
-                        </svg>
-                        <Link to={'/app/recents'}>Recents</Link>
-                    </li>
-                    <li className="flex flex-at" onClick={() => changeRoute('rate')}>
-                        <svg width="24" height="24" fill="none"><path fillRule="evenodd" clipRule="evenodd" d="M17.594 4.357c.224-.234.52-.357.82-.357.149 0 .297.03.437.091.14.06.27.15.382.266.112.117.202.257.265.414a1.353 1.353 0 0 1 0 .999 1.277 1.277 0 0 1-.265.413L6.587 19.358l-2.223.578.575-2.396L17.594 4.357ZM18.414 2c-.857 0-1.67.355-2.263.972L3.309 16.351a1 1 0 0 0-.251.459L2.03 21.09a1 1 0 0 0 1.224 1.201l4.11-1.07a1 1 0 0 0 .469-.275L20.676 7.568c.293-.305.524-.666.68-1.06a3.352 3.352 0 0 0 0-2.476 3.277 3.277 0 0 0-.68-1.06 3.177 3.177 0 0 0-1.032-.717A3.104 3.104 0 0 0 18.414 2Zm-6.165 17.824a1.5 1.5 0 0 0 0 3h9.247a1.5 1.5 0 1 0 0-3h-9.247Z" fill="#fff"/>
-                        </svg>
-                        <Link to={'/app/ratesongs'}>Rate Songs</Link>
-                    </li>
+                  <li style={{height: '4rem'}}>Implemented in a future</li>
                 </ul>
+                
             </div>
             <div className="playlist">
                 <div className="flex flex-at">
@@ -247,7 +244,6 @@ function AppReact({isApp}) {
                 </div>
                 <div className='flex namelist'>
                 {playlistName.map( (name, index) => ( <div className='flex flex-at pn' key={index}> <p id="pn" key={index}> {name.name} </p>  <svg onClick={() => valorActualInput(name.name,name.id_playlist)} id="editPlaylist" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M1.999 22h3.623a3 3 0 0 0 2.12-.878l14.79-14.789l-4.866-4.865L2.878 16.256a3 3 0 0 0-.879 2.122zm2-2v-1.622a1 1 0 0 1 .293-.707l2.158-2.158l2.037 2.036l-2.158 2.158a1 1 0 0 1-.707.293zm5.902-3.865l-2.037-2.037l9.802-9.801l2.037 2.036z"/></svg>  <svg onClick={() => deleteplaylist(name.id_playlist)} id="deletePlaylist"  width="20" height="20" viewBox="0 0 16 16"><g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5"><path d="m10.25 5.75l-4.5 4.5m0-4.5l4.5 4.5"/><circle cx="8" cy="8" r="6.25"/></g></svg> </div>  ) )}
-
                 </div>
             </div>
         </div>

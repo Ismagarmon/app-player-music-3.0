@@ -4,7 +4,7 @@
 import { LitElement, html, css } from 'lit';
 import useStore from '../../../container/StoreZustand'
 import { DeleteUser, GetUsers, UpdateDataUser } from '../../../api/callapi';
-
+import logo from '../../../img/Personal.jpg'
 
 export class ProfileView extends LitElement {
 
@@ -35,7 +35,7 @@ export class ProfileView extends LitElement {
       this.usertype = 'Admin'
       this.obtenerUsuarios()
     } else {
-      this.usertype = 'User'
+      this.usertype = 'User / Artist'
     }
 
     this.username = this.user.username
@@ -351,6 +351,32 @@ export class ProfileView extends LitElement {
     this.dispatchEvent(new CustomEvent('logout', { detail: { logout: true }, bubbles: true, composed: true }))
   }
 
+  regexname(name) {
+    const regex = /^[A-Za-z\s]+$/
+    return regex.test(name)
+  }
+
+  regexusername(username) {
+      const regex = /^[A-Za-z0-9_]{1,15}$/
+      return regex.test(username)
+  }
+
+  regexpassword(pw) {
+      const regex = /^[A-Za-z0-9\s\W]{8,}$/
+      return regex.test(pw)
+  }
+
+  regexemail(email) {
+      const regex = /^[a-zA-Z0-9._%+-]+@(gmail|hotmail|outlook|yahoo)\.com$/
+      return regex.test(email)
+  }
+
+  regexage(age) {
+    if(age === 0) return false
+    const regex = /^[0-9][0-9]$/
+    return regex.test(age)
+}
+
   async updateUser() {
 
     const username = this.shadowRoot.querySelector('#username').value
@@ -360,12 +386,25 @@ export class ProfileView extends LitElement {
     const country = this.shadowRoot.querySelector('#country').value
     const city = this.shadowRoot.querySelector('#city').value
 
-    const respuesta = await UpdateDataUser(name,surnames,username,age,city,country,this.user.id_user)
-    if(respuesta.Message){
-      alert('El usuario se ha actualizado correctamente')
+    if ( this.regexusername(username) && this.regexname(name) && this.regexage(age) ) {
+      const respuesta = await UpdateDataUser(name,surnames,username,age,city,country,this.user.id_user)
+      if(respuesta.Message){
+        alert('El usuario se ha actualizado correctamente')
+        this.user = JSON.parse(localStorage.getItem('usuario'))
+        this.user.username = username
+        this.user.name = name
+        this.user.surnames = surnames
+        this.user.country = country
+        this.user.city = city
+        localStorage.setItem('usuario', JSON.stringify(this.user))
+      } else {
+        alert('El usuario no se ha actualizado correctamente')
+      }
     } else {
-      alert('El usuario no se ha actualizado correctamente')
+      alert("No se cumplen con las expresiones en los campos")
     }
+
+    
   }
 
   async deleteUser(id) {
@@ -400,43 +439,11 @@ export class ProfileView extends LitElement {
             <div class="main grid">
                 <div class="row2 infoprofile flex flex-at">
 
-                    <img alt="personalimg" src="../assets/img/Logo.png" id="profileimg">
+                    <img alt="personalimg" src="${this.usertype.includes('Admin') ? logo : ''}" id="profileimg">
 
                     <div class="personalinfoapp">
                         <h2>${this.username}</h2>
                         <h4>Type of user: ${this.usertype}</h4>
-
-                        <button class="flex flex-at flex-jc" id="imgup">
-                            <p>Upload Image</p>
-                            
-                            <svg width="32" height="32" viewBox="0 0 24 24"><mask id="lineMdCloudUploadOutlineLoop0">
-                                <g fill="currentColor"><circle cx="12" cy="10" r="6"/><rect width="9" height="8" x="8" y="12"/><rect width="17" height="12" x="1" y="8" rx="6"><animate attributeName="x" dur="24s" repeatCount="indefinite" values="1;0;1;2;1"/></rect><rect width="17" height="10" x="6" y="10" rx="5"><animate attributeName="x" dur="15s" repeatCount="indefinite" values="6;5;6;7;6"/></rect>
-                                </g><circle cx="12" cy="10" r="4"/>
-                                <rect width="8" height="8" x="8" y="10"/>
-                                <rect width="11" height="8" x="3" y="10" rx="4">
-                                  <animate attributeName="x" dur="24s" repeatCount="indefinite" values="3;2;3;4;3"/>
-                                </rect>
-                                <rect width="13" height="6" x="8" y="12" rx="3">
-                                  <animate attributeName="x" dur="15s" repeatCount="indefinite" values="8;7;8;9;8"/>
-                                </rect><g fill="currentColor"><rect width="3" height="4" x="10.5" y="12"/>
-                                <path d="M12 9L16 13H8L12 9Z">
-                                  <animateMotion calcMode="linear" dur="1.5s" keyPoints="0;0.25;0.5;0.75;1" keyTimes="0;0.1;0.5;0.8;1" path="M0 0v-1v2z" repeatCount="indefinite"/></path></g></mask><rect width="24" height="24" fill="#47B251" mask="url(#lineMdCloudUploadOutlineLoop0)"/>
-                            </svg>
-                            <input
-                                type="file"
-                                id="imgup"
-                                style="display: none"
-                                accept="image/jpeg, image/png, image/gif"
-                                @change="${(event) => this.handleFileUpload(event)}"
-                            />
-                        </button>
-
-                        <button class="flex flex-at flex-jc" id="imgde">
-                            <p>Delete Image</p>
-                            <svg width="32" height="32" viewBox="0 0 24 24">
-                                <path fill="red" d="M18 19a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3V7H4V4h4.5l1-1h4l1 1H19v3h-1zM6 7v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2V7zm12-1V5h-4l-1-1h-3L9 5H5v1zM8 9h1v10H8zm6 0h1v10h-1z"/>
-                            </svg>
-                        </button>
 
                     </div>
                     <button id="logout" @click=${() => this.logout()} class="flex flex-at flex-jc">
