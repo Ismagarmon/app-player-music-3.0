@@ -1,6 +1,4 @@
 import { LitElement, html, css } from 'lit';
-import useStore from '../../../container/StoreZustand';
-
 
 export class PlayerComponent extends LitElement {
 
@@ -56,10 +54,14 @@ export class PlayerComponent extends LitElement {
         this.isHolding = false
         this.srcImg = ''
         this.songname = localStorage.getItem('songname')
-        this.songname.slice(1,-1)
-        console.log(this.songname)
+        if(this.songname.startsWith('"')) {
+            this.songname = this.songname.slice(1,-1)
+            console.log(this.songname)
+        }
+        
         this.unsubscribe = null
         this.handleChanges()
+        this.interval2 = null
         this.interval = null
         this.audio.onerror = () => {
             this.errorAudioSrc()
@@ -71,13 +73,13 @@ export class PlayerComponent extends LitElement {
     }
 
     async handleChanges() {
-        this.interval = setInterval(async () => {
+        this.interval2 = setInterval(async () => {
             if(localStorage.getItem('songname') !== this.songname){
                 this.isPlaying = false
                 this.audio.pause()
                 this.audio.src = `https://apimap-h4m5.onrender.com/song/name/${localStorage.getItem('songname').slice(1, -1)}`
                 
-                localStorage.setItem('songname', this.songname = localStorage.getItem('songname'))
+                localStorage.setItem('songname', this.songname = localStorage.getItem('songname').slice(1, -1))
                 await this.audio.load()
                 this.audio.addEventListener('loadedmetadata', () => {
                     this.maxtime = this.audio.duration
@@ -92,9 +94,22 @@ export class PlayerComponent extends LitElement {
     }
 
     disconnectedCallback() {
-        this.interval = clearInterval()
-        this.audio.pause()
+        clearInterval(this.interval2)
+        clearInterval(this.interval)
+        this.interval2 = null
+        this.interval = null
+        if (this.audio) {
+            this.audio.pause();
+            this.audio.src = ""
+            this.audio.load()
+            this.audio = null
+        }
+
+        
+
         this.isPlaying = false
+
+        super.disconnectedCallback && super.disconnectedCallback()
     }
 
     static styles = css`
@@ -377,7 +392,7 @@ export class PlayerComponent extends LitElement {
     }
 
     async loadsong() {
-        this.audio.src = `https://apimap-h4m5.onrender.com/song/name/${this.songname.slice(1,-1)}`
+        this.audio.src = `https://apimap-h4m5.onrender.com/song/name/${this.songname}`
         await this.audio.load()
         this.audio.addEventListener('loadedmetadata', () => {
             this.maxtime = this.audio.duration
@@ -481,6 +496,10 @@ export class PlayerComponent extends LitElement {
         }
     }
 
+    messageAlert() {
+        alert("Implemented in a future")
+    }
+
     render() {
         return html`
             <div class="player ${this.isExpanded ? '' : 'new-color'}">
@@ -521,7 +540,7 @@ export class PlayerComponent extends LitElement {
 
                 <div class="control flex flex-att gap">
                     <div class="rate flex flex-at flex-jc">
-                        <button class="flex flex-at flex-jcsa">
+                        <button class="flex flex-at flex-jcsa" @click=${() => this.messageAlert()}>
                             <p>Rate this song</p>
                             <svg width="20" height="20" fill="none">
                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M8.405 1.328a.833.833 0 0 1 .762-.495A3.333 3.333 0 0 1 12.5 4.167v2.5h3.879a2.5 2.5 0 0 1 2.495 2.875l-1.15 7.5a2.501 2.501 0 0 1-2.495 2.125H3.333a2.5 2.5 0 0 1-2.5-2.5v-5.834a2.5 2.5 0 0 1 2.5-2.5h1.959l3.113-7.005ZM6.667 9.343 9.673 2.58a1.667 1.667 0 0 1 1.16 1.588V7.5c0 .46.373.833.834.833h4.726a.833.833 0 0 1 .833.958l-1.15 7.5a.833.833 0 0 1-.833.709H6.667V9.343ZM5 17.5V10H3.333a.833.833 0 0 0-.833.833v5.834a.833.833 0 0 0 .833.833H5Z" fill="#fff"/>

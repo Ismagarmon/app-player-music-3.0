@@ -472,7 +472,7 @@ export class SignUpView extends LitElement {
         const pw = this.shadowRoot.querySelector('#password')
         const username = this.shadowRoot.querySelector('#username')
         const email = this.shadowRoot.querySelector('#email')
-
+        const cpw = this.shadowRoot.querySelector('#cpassword')
 
 
         if (this.inputIsEmpty(pw.value) || this.inputIsEmpty(username.value) || this.inputIsEmpty(email.value)) return
@@ -519,7 +519,12 @@ export class SignUpView extends LitElement {
 
                     if (respuesta) {
                         alert('Te has registrado correctamente')
+                        username.value = ''
+                        pw.value = ''
+                        email.value = ''
+                        cpw.value = ''
                         localStorage.setItem('zone', 'signin')
+                        this.dispatchEvent(new CustomEvent('togglesignin', { detail: { expanded: false }, bubbles: true, composed: true }))
                     }
 
                 } else {
@@ -545,7 +550,7 @@ export class SignUpView extends LitElement {
 
                 usuario = respuesta.find(user => user.name === username.value)
                 if (this.isEmpty(usuario)) {
-                    const cpw = this.shadowRoot.querySelector('#cpassword')
+                    
                     await RegisterDataArtist(username.value, pw.value, email.value)
                     alert('Te has registrado correctamente')
                     username.value = ''
