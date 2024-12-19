@@ -79,7 +79,7 @@ export class PlayerComponent extends LitElement {
                 this.audio.pause()
                 this.audio.src = `https://apimap-h4m5.onrender.com/song/name/${localStorage.getItem('songname').slice(1, -1)}`
                 
-                localStorage.setItem('songname', this.songname = localStorage.getItem('songname').slice(1, -1))
+                localStorage.setItem('songname', this.songname = localStorage.getItem('songname'))
                 await this.audio.load()
                 this.audio.addEventListener('loadedmetadata', () => {
                     this.maxtime = this.audio.duration
@@ -102,7 +102,7 @@ export class PlayerComponent extends LitElement {
             this.audio.pause();
             this.audio.src = ""
             this.audio.load()
-            this.audio = null
+
         }
 
         

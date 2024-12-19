@@ -1,7 +1,7 @@
 /* eslint-disable class-methods-use-this */
 import { LitElement, html, css } from 'lit';
 import { GetAlbums, GetArtsits } from '../../../api/callapi';
-
+import '../albumComponent/albumComponent'
 
 export class ArtistView extends LitElement {
 
